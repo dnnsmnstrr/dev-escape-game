@@ -81,11 +81,10 @@ src/
 - Algorithm optimization
 - Bug finding exercises
 
-### Logic Puzzles
-- Git workflow scenarios
-- System design problems
-- Debugging challenges
-- Code review puzzles
+### Terminal Scavenging Puzzles
+- File system navigation challenges
+- Hidden data extraction from system files
+- Command-line exercises with intelligent autocompletion
 
 ### Network Security Puzzles
 - Port scanning simulations
