@@ -56,12 +56,12 @@ export const CryptoPuzzle: React.FC<PuzzleComponentProps> = ({ puzzle, onComplet
           {puzzle.description}
         </div>
 
-        {puzzle.data?.encoded && (
-          <Terminal title="encoded-message.txt">
+        {(puzzle.data?.encoded || puzzle.data?.encrypted) && (
+          <Terminal title={puzzle.data?.encoded ? "encoded-message.txt" : "encrypted-message.txt"}>
             <div className="space-y-2">
-              <div className="text-gray-400">$ cat encoded-message.txt</div>
+              <div className="text-gray-400">$ cat {puzzle.data?.encoded ? "encoded-message.txt" : "encrypted-message.txt"}</div>
               <div className="text-yellow-300 font-mono">
-                {puzzle.data.encoded}
+                {puzzle.data?.encoded || puzzle.data?.encrypted}
               </div>
             </div>
           </Terminal>
