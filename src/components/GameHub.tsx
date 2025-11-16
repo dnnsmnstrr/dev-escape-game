@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { Card } from './ui/Card';
 import { Button } from './ui/Button';
 import { Terminal } from './ui/Terminal';
@@ -93,7 +93,6 @@ export const GameHub: React.FC = () => {
   } = useGameStore();
   
   const { puzzles } = usePuzzleStore();
-  const [showDebugMenu, setShowDebugMenu] = useState(false);
 
   const getCurrentChapter = () => {
     const completedCount = completedPuzzles.length;
@@ -121,24 +120,6 @@ export const GameHub: React.FC = () => {
     setGameProgress('completed');
   };
 
-  // Hidden debug menu keyboard shortcut
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      console.log(e)
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'k') {
-        e.preventDefault();
-        setShowDebugMenu(prev => !prev);
-      }
-      // ESC to close
-      if (e.key === 'Escape' && showDebugMenu) {
-        setShowDebugMenu(false);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [showDebugMenu]);
-
   const currentChapter = getCurrentChapter();
   const uncompletedPuzzles = getUncompletedPuzzles();
 
@@ -148,73 +129,6 @@ export const GameHub: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      {/* Hidden Debug Menu */}
-      <AnimatePresence>
-        {showDebugMenu && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="fixed top-4 right-4 z-50 w-96"
-          >
-            <Card variant="terminal" className="space-y-3 shadow-2xl border-2 border-yellow-400">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-mono text-yellow-400">
-                  🐛 Debug Menu
-                </h3>
-                <button
-                  onClick={() => setShowDebugMenu(false)}
-                  className="text-gray-400 hover:text-yellow-400 text-xl leading-none"
-                >
-                  ×
-                </button>
-              </div>
-              
-              <div className="text-xs text-gray-400 font-mono mb-2">
-                Jump to any challenge:
-              </div>
-              
-              <div className="max-h-96 overflow-y-auto space-y-2">
-                {puzzles.map((puzzle) => {
-                  const isCompleted = completedPuzzles.includes(puzzle.id);
-                  return (
-                    <button
-                      key={puzzle.id}
-                      onClick={() => {
-                        handlePuzzleSelect(puzzle.id);
-                        setShowDebugMenu(false);
-                      }}
-                      className={`w-full text-left p-2 rounded border font-mono text-xs transition-colors ${
-                        isCompleted
-                          ? 'border-green-500/30 bg-green-900/10 text-green-400 hover:bg-green-900/20'
-                          : 'border-terminal-border bg-black text-green-300 hover:border-yellow-400'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-semibold">{puzzle.title}</span>
-                        {isCompleted && <span className="text-green-500">✓</span>}
-                      </div>
-                      <div className="text-gray-500 flex items-center gap-2">
-                        <span className="uppercase">{puzzle.type}</span>
-                        <span>•</span>
-                        <span>{puzzle.points} pts</span>
-                        <span>•</span>
-                        <span>{'★'.repeat(puzzle.difficulty)}</span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-              
-              <div className="text-xs text-gray-500 font-mono pt-2 border-t border-gray-700">
-                Press ESC to close
-              </div>
-            </Card>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Story Chapter */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
