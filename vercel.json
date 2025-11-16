@@ -1,0 +1,19 @@
+{
+  "name": "dev-escape-game",
+  "version": "1.0.0",
+  "description": "A developer-themed escape game with cryptography, coding, and network security challenges",
+  "keywords": ["game", "developer", "escape", "puzzle", "react", "typescript"],
+  "author": "Developer Escape Game Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/dev-escape-game.git"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  }
+}
