@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Puzzle } from '../types';
+import type { Puzzle } from '../types';
 
 export const usePuzzleSolver = (puzzle: Puzzle | null) => {
   const [answer, setAnswer] = useState('');

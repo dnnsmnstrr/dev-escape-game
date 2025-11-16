@@ -1,11 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
-import { Terminal } from '../ui/Terminal';
-import { useGameStore } from '../../stores/gameStore';
-import { usePuzzleStore } from '../../stores/puzzleStore';
-import { storyChapters } from '../../data/story';
+import { Card } from './ui/Card';
+import { Button } from './ui/Button';
+import { Terminal } from './ui/Terminal';
+import { useGameStore } from '../stores/gameStore';
+import { usePuzzleStore } from '../stores/puzzleStore';
+import { storyChapters } from '../data/story';
 
 export const GameHub: React.FC = () => {
   const { 

@@ -1,4 +1,4 @@
-import { Puzzle } from '../types';
+import type { Puzzle } from '../types';
 
 export const puzzles: Puzzle[] = [
   {
@@ -39,7 +39,7 @@ export const puzzles: Puzzle[] = [
              answer.toLowerCase().includes('dev-mode');
     },
     data: {
-      code: `var _0x1a2b=['YWNjZXNzX2tleQ==','ZGV2LW1vZGUtNDI=','bG9n'];function _0x3c4d(_0x5e6f){return atob(_0x5e6f);}console[_0x1a2b[2]](_0x3c4d(_0x1a2b[0])+': '+_0x3c4d(_0x1a2b[1]));`
+      code: `var _0x1a2b=['YWNjZXNzX2tleQ==','ZGV2LW1vZGUtNDI=','bG9n'];function _0x3c4d(_0x5e6f){return atob(_0x5e6f);}console[_0x1a2b[2]];(_0x3c4d(_0x1a2b[0])+': '+_0x3c4d(_0x1a2b[1]));`
     },
     points: 150
   },

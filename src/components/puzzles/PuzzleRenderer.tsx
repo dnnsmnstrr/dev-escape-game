@@ -3,7 +3,7 @@ import { CryptoPuzzle } from './CryptoPuzzle';
 import { CodePuzzle } from './CodePuzzle';
 import { LogicPuzzle } from './LogicPuzzle';
 import { NetworkPuzzle } from './NetworkPuzzle';
-import { Puzzle } from '../../types';
+import type { Puzzle } from '../../types';
 
 interface PuzzleRendererProps {
   puzzle: Puzzle;

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Puzzle } from '../types';
+import type { Puzzle } from '../types';
 
 interface PuzzleStore {
   puzzles: Puzzle[];

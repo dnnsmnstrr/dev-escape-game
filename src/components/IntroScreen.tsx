@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
-import { useGameStore } from '../../stores/gameStore';
+import { Card } from './ui/Card';
+import { Button } from './ui/Button';
+import { useGameStore } from '../stores/gameStore';
 
 export const IntroScreen: React.FC = () => {
   const { startGame } = useGameStore();

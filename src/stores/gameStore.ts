@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { GameState, Puzzle, PuzzleAttempt } from '../types';
+import type { GameState, PuzzleAttempt } from '../types';
 
 interface GameStore extends GameState {
   // Actions

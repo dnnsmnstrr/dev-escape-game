@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
-import { useGameStore } from '../../stores/gameStore';
-import { useTimer } from '../../hooks/useTimer';
+import { Card } from './ui/Card';
+import { Button } from './ui/Button';
+import { useGameStore } from '../stores/gameStore';
+import { useTimer } from '../hooks/useTimer';
 
 export const CompletionScreen: React.FC = () => {
   const { score, resetGame, completedPuzzles, hintsUsed } = useGameStore();
