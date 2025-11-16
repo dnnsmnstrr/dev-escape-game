@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import ChallengeBuilder from '../components/admin/ChallengeBuilder';
-import { Card } from '../components/ui/Card';
+import ChallengeList from '../components/admin/ChallengeList';
 import { Button } from '../components/ui/Button';
 
 type AdminView = 'builder' | 'list';
@@ -56,10 +56,9 @@ const AdminPage = () => {
         )}
 
         {currentView === 'list' && (
-          <Card>
-            <h2 className="text-2xl font-bold mb-4">Challenge Management</h2>
-            <p className="text-gray-400">Challenge list view coming soon...</p>
-          </Card>
+          <div>
+            <ChallengeList />
+          </div>
         )}
       </div>
     </div>
