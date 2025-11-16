@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from './ui/Card';
 import { Button } from './ui/Button';
 import { Terminal } from './ui/Terminal';
@@ -7,9 +7,110 @@ import { useGameStore } from '../stores/gameStore';
 import { usePuzzleStore } from '../stores/puzzleStore';
 import { storyChapters } from '../data/story';
 
+interface ContentPart {
+  type: 'text' | 'terminal';
+  content: string;
+}
+
+const parseContent = (content: string): ContentPart[] => {
+  const parts: ContentPart[] = [];
+  const regex = /```([\s\S]*?)```/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(content)) !== null) {
+    // Add text before the terminal block
+    if (match.index > lastIndex) {
+      const textContent = content.slice(lastIndex, match.index).trim();
+      if (textContent) {
+        parts.push({ type: 'text', content: textContent });
+      }
+    }
+    
+    // Add terminal block
+    const terminalContent = match[1].trim();
+    if (terminalContent) {
+      parts.push({ type: 'terminal', content: terminalContent });
+    }
+    
+    lastIndex = regex.lastIndex;
+  }
+
+  // Add remaining text after the last terminal block
+  if (lastIndex < content.length) {
+    const textContent = content.slice(lastIndex).trim();
+    if (textContent) {
+      parts.push({ type: 'text', content: textContent });
+    }
+  }
+
+  return parts;
+};
+
+const TerminalBlockRenderer: React.FC<{ content: string }> = ({ content }) => {
+  const [visibleLines, setVisibleLines] = useState<string[]>([]);
+
+  useEffect(() => {
+    const lines = content.split('\n').filter(line => line.trim() !== '');
+    const timeouts: number[] = [];
+    
+    // Start with empty lines and progressively add them
+    let currentLines: string[] = [];
+    
+    lines.forEach((line, index) => {
+      const timeout = window.setTimeout(() => {
+        currentLines = [...currentLines, line];
+        setVisibleLines([...currentLines]);
+      }, index * 150); // 150ms delay between each line
+      timeouts.push(timeout);
+    });
+
+    return () => {
+      timeouts.forEach(timeout => clearTimeout(timeout));
+    };
+  }, [content]);
+
+  return (
+    <div className="bg-terminal-bg border border-terminal-border rounded-md p-4 my-4 font-mono text-sm">
+      <AnimatePresence mode="popLayout">
+        {visibleLines.map((line, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
+            className="text-green-300 leading-relaxed"
+          >
+            {line}
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+const StoryContentRenderer: React.FC<{ content: string }> = ({ content }) => {
+  const parts = parseContent(content);
+
+  return (
+    <div className="space-y-4">
+      {parts.map((part, index) => (
+        <React.Fragment key={index}>
+          {part.type === 'text' ? (
+            <div className="text-green-300 font-mono text-sm leading-relaxed whitespace-pre-line">
+              {part.content}
+            </div>
+          ) : (
+            <TerminalBlockRenderer content={part.content} />
+          )}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+};
+
 export const GameHub: React.FC = () => {
   const { 
-    currentPuzzle, 
     setCurrentPuzzle, 
     completedPuzzles, 
     gameProgress,
@@ -64,9 +165,7 @@ export const GameHub: React.FC = () => {
             {currentChapter.title}
           </h2>
           
-          <div className="text-green-300 font-mono text-sm leading-relaxed whitespace-pre-line">
-            {currentChapter.content}
-          </div>
+          <StoryContentRenderer content={currentChapter.content} />
         </Card>
       </motion.div>
 
