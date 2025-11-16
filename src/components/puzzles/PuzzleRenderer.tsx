@@ -2,6 +2,7 @@ import React from 'react';
 import { CryptoPuzzle } from './CryptoPuzzle';
 import { CodePuzzle } from './CodePuzzle';
 import { LogicPuzzle } from './LogicPuzzle';
+import { TerminalPuzzle } from './TerminalPuzzle';
 import { NetworkPuzzle } from './NetworkPuzzle';
 import type { Puzzle } from '../../types';
 
@@ -18,6 +19,8 @@ export const PuzzleRenderer: React.FC<PuzzleRendererProps> = ({ puzzle, onComple
       return <CodePuzzle puzzle={puzzle} onComplete={onComplete} />;
     case 'logic':
       return <LogicPuzzle puzzle={puzzle} onComplete={onComplete} />;
+    case 'terminal':
+      return <TerminalPuzzle puzzle={puzzle} onComplete={onComplete} />;
     case 'network':
       return <NetworkPuzzle puzzle={puzzle} onComplete={onComplete} />;
     default:

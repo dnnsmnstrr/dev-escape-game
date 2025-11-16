@@ -44,28 +44,116 @@ export const puzzles: Puzzle[] = [
     points: 150
   },
   {
-    id: 'logic-001',
-    type: 'logic',
-    title: 'Git Branch Mystery',
-    description: 'You\'re looking at a Git repository with multiple branches. Based on the commit history and branch structure, determine which branch contains the main codebase and what the latest commit message is.',
+    id: 'terminal-001',
+    type: 'terminal',
+    title: 'Terminal Navigator',
+    description: 'You\'ve gained access to a server with a complex directory structure. Navigate through the filesystem using terminal commands to find the hidden file "secret_key.txt" and reveal its contents.',
     difficulty: 2,
     hints: [
-      'Look for the branch with the most commits',
-      'Main branches are usually named main, master, or develop',
-      'The latest commit will be at the tip of the branch'
+      'Use "ls" to list files in the current directory',
+      'Use "cd <directory>" to change directories',
+      'Use "cat <filename>" to read file contents',
+      'The file might be hidden deep in the folder structure'
     ],
-    solution: 'main branch: "Fix critical security vulnerability"',
+    solution: 'ACCESS_KEY: xK9mP2qR8nL5wJ',
     validator: (answer: string) => {
-      return answer.toLowerCase().includes('main') && 
-             (answer.toLowerCase().includes('security') || 
-              answer.toLowerCase().includes('vulnerability'));
+      return answer.toLowerCase().includes('xk9mp2qr8nl5wj') || 
+             (answer.toLowerCase().includes('access_key') && answer.includes('xK9mP2qR8nL5wJ'));
     },
     data: {
-      branches: {
-        'main': ['Initial commit', 'Add user auth', 'Fix critical security vulnerability'],
-        'feature/login': ['Initial commit', 'Add user auth', 'Start OAuth implementation'],
-        'hotfix/patch': ['Initial commit', 'Add user auth', 'Quick bug fix'],
-        'develop': ['Initial commit', 'Add user auth', 'Merge feature branch']
+      filesystem: {
+        '/': {
+          type: 'directory',
+          children: {
+            'home': {
+              type: 'directory',
+              children: {
+                'user': {
+                  type: 'directory',
+                  children: {
+                    'documents': {
+                      type: 'directory',
+                      children: {
+                        'notes.txt': {
+                          type: 'file',
+                          content: 'Remember to check the backup server regularly.'
+                        },
+                        'todo.txt': {
+                          type: 'file',
+                          content: '1. Update security protocols\n2. Check logs directory'
+                        }
+                      }
+                    },
+                    'downloads': {
+                      type: 'directory',
+                      children: {
+                        'readme.md': {
+                          type: 'file',
+                          content: 'Nothing interesting here. Try the var directory.'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            'var': {
+              type: 'directory',
+              children: {
+                'www': {
+                  type: 'directory',
+                  children: {
+                    'index.html': {
+                      type: 'file',
+                      content: '<html>Empty website</html>'
+                    }
+                  }
+                },
+                'log': {
+                  type: 'directory',
+                  children: {
+                    'syslog.txt': {
+                      type: 'file',
+                      content: '[INFO] System running normally\n[WARN] Check backup folder for important files'
+                    },
+                    'backup': {
+                      type: 'directory',
+                      children: {
+                        'old_configs': {
+                          type: 'directory',
+                          children: {
+                            'config.ini': {
+                              type: 'file',
+                              content: '[Server]\nPort=8080\nHost=localhost'
+                            }
+                          }
+                        },
+                        'secret_key.txt': {
+                          type: 'file',
+                          content: 'ACCESS_KEY: xK9mP2qR8nL5wJ'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            'etc': {
+              type: 'directory',
+              children: {
+                'config': {
+                  type: 'directory',
+                  children: {
+                    'app.conf': {
+                      type: 'file',
+                      content: 'Configuration file - nothing useful here'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     points: 125

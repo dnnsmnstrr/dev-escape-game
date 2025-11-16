@@ -1,6 +1,6 @@
 export interface Puzzle {
   id: string;
-  type: 'crypto' | 'code' | 'logic' | 'network';
+  type: 'crypto' | 'code' | 'logic' | 'network' | 'terminal';
   title: string;
   description: string;
   difficulty: 1 | 2 | 3 | 4 | 5;

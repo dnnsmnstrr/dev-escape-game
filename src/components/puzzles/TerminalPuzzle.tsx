@@ -12,7 +12,7 @@ interface PuzzleComponentProps {
   onComplete: () => void;
 }
 
-export const LogicPuzzle: React.FC<PuzzleComponentProps> = ({ puzzle, onComplete }) => {
+export const TerminalPuzzle: React.FC<PuzzleComponentProps> = ({ puzzle, onComplete }) => {
   const gameStore = useGameStore();
   const { answer, setAnswer, isSubmitting, feedback, submitAnswer, clearAnswer } = usePuzzleSolver(puzzle);
   const [showHint, setShowHint] = React.useState(false);
