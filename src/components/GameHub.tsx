@@ -48,43 +48,18 @@ const parseContent = (content: string): ContentPart[] => {
 };
 
 const TerminalBlockRenderer: React.FC<{ content: string }> = ({ content }) => {
-  const [visibleLines, setVisibleLines] = useState<string[]>([]);
-
-  useEffect(() => {
-    const lines = content.split('\n').filter(line => line.trim() !== '');
-    const timeouts: number[] = [];
-    
-    // Start with empty lines and progressively add them
-    let currentLines: string[] = [];
-    
-    lines.forEach((line, index) => {
-      const timeout = window.setTimeout(() => {
-        currentLines = [...currentLines, line];
-        setVisibleLines([...currentLines]);
-      }, index * 150); // 150ms delay between each line
-      timeouts.push(timeout);
-    });
-
-    return () => {
-      timeouts.forEach(timeout => clearTimeout(timeout));
-    };
-  }, [content]);
+  const lines = content.split('\n').filter(line => line.trim() !== '');
 
   return (
     <div className="bg-terminal-bg border border-terminal-border rounded-md p-4 my-4 font-mono text-sm">
-      <AnimatePresence mode="popLayout">
-        {visibleLines.map((line, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
-            className="text-green-300 leading-relaxed"
-          >
-            {line}
-          </motion.div>
-        ))}
-      </AnimatePresence>
+      {lines.map((line, index) => (
+        <div
+          key={index}
+          className="text-green-300 leading-relaxed"
+        >
+          {line}
+        </div>
+      ))}
     </div>
   );
 };
@@ -149,6 +124,7 @@ export const GameHub: React.FC = () => {
   // Hidden debug menu keyboard shortcut
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      console.log(e)
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'k') {
         e.preventDefault();
         setShowDebugMenu(prev => !prev);
