@@ -1,7 +1,6 @@
 {
   "name": "dev-escape-game",
   "version": "1.0.0",
-  "keywords": ["game", "developer", "escape", "puzzle", "react", "typescript"],
   "author": "Developer Escape Game Team",
   "license": "MIT",
   "repository": {
