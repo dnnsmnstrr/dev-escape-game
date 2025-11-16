@@ -179,28 +179,6 @@ export const TerminalPuzzle: React.FC<PuzzleComponentProps> = ({ puzzle, onCompl
     setTerminalOutput(prev => [...prev, ...output]);
   };
 
-  const renderBranchData = () => {
-    if (!puzzle.data?.branches) return null;
-    
-    return (
-      <div className="space-y-3">
-        {Object.entries(puzzle.data.branches).map(([branch, commits]) => (
-          <div key={branch} className="border border-green-500/20 rounded p-3">
-            <div className="text-yellow-300 font-mono mb-2">
-              {branch}/
-            </div>
-            {(commits as string[]).map((commit: string, index: number) => (
-              <div key={index} className="text-gray-400 font-mono text-sm ml-4">
-                {index === (commits as string[]).length - 1 ? '└── ' : '├── '}
-                <span className="text-green-300">{commit}</span>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    );
-  };
-
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <Card variant="terminal" className="space-y-4">
@@ -252,21 +230,11 @@ export const TerminalPuzzle: React.FC<PuzzleComponentProps> = ({ puzzle, onCompl
             </div>
           </Terminal>
         )}
-
-        {puzzle.data?.branches && (
-          <Terminal title="git-branch-analysis">
-            <div className="space-y-2">
-              <div className="text-gray-400">$ git branch -a</div>
-              <div className="text-gray-400">$ git log --oneline --graph --all</div>
-              {renderBranchData()}
-            </div>
-          </Terminal>
-        )}
       </Card>
 
       <Card variant="default" className="space-y-4">
         <h3 className="text-lg font-mono text-hacker-green">
-          {puzzle.data?.filesystem ? 'Submit Your Finding' : 'Logic Analysis Terminal'}
+          {puzzle.data?.filesystem ? 'Submit Your Finding' : 'Terminal'}
         </h3>
         
         <div className="space-y-4">

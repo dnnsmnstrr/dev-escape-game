@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
+import { PuzzleRenderer } from '../puzzles/PuzzleRenderer';
+import type { Puzzle } from '../../types';
 
 type PuzzleType = 'crypto' | 'code' | 'logic' | 'network' | 'terminal';
 
@@ -148,6 +150,40 @@ ${hintsStr}
     });
   };
 
+  // Convert form data to a Puzzle object for preview
+  const previewPuzzle = useMemo((): Puzzle | null => {
+    if (!form.title || !form.description) {
+      return null;
+    }
+
+    // Parse data fields based on type
+    const parsedData: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(form.data)) {
+      if (!value) continue;
+      try {
+        // Try to parse as JSON first
+        parsedData[key] = JSON.parse(value);
+      } catch {
+        // If parsing fails, use as string
+        parsedData[key] = value;
+      }
+    }
+
+    return {
+      id: form.id || 'preview',
+      type: form.type,
+      title: form.title,
+      description: form.description,
+      difficulty: form.difficulty,
+      hints: form.hints.filter(h => h.trim()),
+      solution: form.solution,
+      validator: (input: string) => input.toLowerCase().includes(form.solution.toLowerCase()),
+      data: parsedData,
+      timeLimit: form.timeLimit,
+      points: form.points,
+    };
+  }, [form]);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Form Section */}
@@ -155,8 +191,8 @@ ${hintsStr}
         <Card>
           <h2 className="text-2xl font-bold mb-6">Challenge Configuration</h2>
 
-          {/* Basic Info */}
-          <div className="space-y-4">
+            {/* Basic Info */}
+            <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-2">Puzzle ID</label>
               <input
@@ -401,7 +437,7 @@ ${hintsStr}
         </Card>
 
         <Card>
-          <h3 className="text-xl font-bold mb-4">Preview</h3>
+          <h3 className="text-xl font-bold mb-4">Metadata Preview</h3>
           <div className="space-y-3 bg-gray-900 p-4 rounded-lg">
             <div>
               <span className="text-sm text-gray-400">Type:</span>
@@ -430,6 +466,24 @@ ${hintsStr}
               <p className="text-purple-400 font-medium">{form.hints.filter(h => h.trim()).length} hints</p>
             </div>
           </div>
+        </Card>
+
+        <Card>
+          <h3 className="text-xl font-bold mb-4">Live Challenge Preview</h3>
+          {previewPuzzle ? (
+            <div className="bg-terminal-bg rounded-lg overflow-hidden">
+              <PuzzleRenderer 
+                puzzle={previewPuzzle} 
+                onComplete={() => alert('Preview mode - completion disabled')}
+              />
+            </div>
+          ) : (
+            <div className="bg-terminal-bg border border-terminal-border rounded-lg p-6 text-center">
+              <p className="text-gray-400 font-mono">
+                Fill in at least the title and description to see a live preview
+              </p>
+            </div>
+          )}
         </Card>
       </div>
     </div>

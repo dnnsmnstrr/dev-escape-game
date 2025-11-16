@@ -2,24 +2,6 @@ import type { Puzzle } from '../types';
 
 export const puzzles: Puzzle[] = [
   {
-    id: 'base64',
-    type: 'crypto',
-    title: 'Intro to Crypto',
-    description: 'Figure it out!',
-    difficulty: 1,
-    hints: [
-
-    ],
-    solution: 'hello world',
-    validator: (answer: string) => {
-      return answer.toLowerCase().trim() === 'hello world';
-    },
-    data: {
-            "encoded": "aGVsbG8gd29ybGQ="
-      },
-    points: 100
-  },
-  {
     id: 'crypto-001',
     type: 'crypto',
     title: 'Base64 Deception',
