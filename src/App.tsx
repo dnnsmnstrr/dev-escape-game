@@ -8,11 +8,13 @@ import { CompletionScreen } from './components/CompletionScreen';
 import { GameHub } from './components/GameHub';
 import { PuzzleRenderer } from './components/puzzles/PuzzleRenderer';
 import { Card } from './components/ui/Card';
+import AdminPage from './pages/AdminPage';
 import { useGameStore } from './stores/gameStore';
 import { usePuzzleStore } from './stores/puzzleStore';
 import { useTimer } from './hooks/useTimer';
 
 function App() {
+  const [currentRoute, setCurrentRoute] = useState(window.location.pathname);
   const { 
     gameProgress, 
     currentPuzzle, 
@@ -36,6 +38,15 @@ function App() {
       return () => clearInterval(interval);
     }
   }, [gameProgress, updateElapsedTime]);
+
+  // Handle navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentRoute(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Global debug menu keyboard shortcut
   useEffect(() => {
@@ -69,6 +80,11 @@ function App() {
   };
 
   const currentPuzzleData = currentPuzzle ? getPuzzleById(currentPuzzle) : null;
+
+  // Admin route
+  if (currentRoute === '/admin') {
+    return <AdminPage />;
+  }
 
   return (
     <div className="min-h-screen bg-terminal-bg text-hacker-green flex flex-col">

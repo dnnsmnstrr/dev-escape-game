@@ -22,7 +22,7 @@ A terminal flickers to life in front of you:
 \`\`\`
 
 The challenges ahead will test your knowledge of cryptography, code analysis, logical reasoning, and network security. Only the most skilled developers can escape this digital maze.`,
-    puzzleIds: ['crypto-001'],
+    puzzleIds: ['crypto-001',],
     completed: false
   },
   {
