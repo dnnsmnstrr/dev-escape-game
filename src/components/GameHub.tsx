@@ -256,7 +256,7 @@ export const GameHub: React.FC = () => {
               Remaining Challenges: {uncompletedPuzzles.length}
             </div>
             <div className="text-gray-600 text-xs mt-3 italic">
-              Hint: Press Ctrl+Shift+1 for debug menu
+              Hint: Press Ctrl+Shift+K for debug menu
             </div>
           </div>
         </Terminal>
