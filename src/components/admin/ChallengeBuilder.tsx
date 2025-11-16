@@ -42,6 +42,7 @@ const ChallengeBuilder = () => {
   });
 
   const [copied, setCopied] = useState(false);
+  const [previewKey, setPreviewKey] = useState(0);
 
   const updateForm = (field: keyof ChallengeForm, value: ChallengeForm[keyof ChallengeForm]) => {
     setForm({ ...form, [field]: value });
@@ -353,7 +354,7 @@ ${hintsStr}
                   <textarea
                     value={form.data.filesystem || ''}
                     onChange={(e) => updateData('filesystem', e.target.value)}
-                    placeholder='{"home": {"user": {"file.txt": "content"}}}'
+                    placeholder='{"/": {"home": {"user": {"file.txt": "content"}}}}'
                     rows={4}
                     className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent font-mono text-sm"
                   />
@@ -469,10 +470,22 @@ ${hintsStr}
         </Card>
 
         <Card>
-          <h3 className="text-xl font-bold mb-4">Live Challenge Preview</h3>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-bold">Live Challenge Preview</h3>
+            {previewPuzzle && (
+              <Button 
+                onClick={() => setPreviewKey(prev => prev + 1)} 
+                variant="secondary" 
+                className="text-sm"
+              >
+                🔄 Refresh Preview
+              </Button>
+            )}
+          </div>
           {previewPuzzle ? (
             <div className="bg-terminal-bg rounded-lg overflow-hidden">
               <PuzzleRenderer 
+                key={previewKey}
                 puzzle={previewPuzzle} 
                 onComplete={() => alert('Preview mode - completion disabled')}
               />
