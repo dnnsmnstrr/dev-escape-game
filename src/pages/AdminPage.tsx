@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import ChallengeBuilder from '../components/admin/ChallengeBuilder';
 import ChallengeList from '../components/admin/ChallengeList';
+import ScriptEditor from '../components/admin/ScriptEditor';
 import { Button } from '../components/ui/Button';
 
-type AdminView = 'builder' | 'list';
+type AdminView = 'builder' | 'list' | 'scripts';
 
 const AdminPage = () => {
   const [currentView, setCurrentView] = useState<AdminView>('builder');
@@ -46,6 +47,12 @@ const AdminPage = () => {
           >
             Challenge List
           </Button>
+          <Button
+            onClick={() => setCurrentView('scripts')}
+            variant={currentView === 'scripts' ? 'primary' : 'secondary'}
+          >
+            Audio Scripts
+          </Button>
         </div>
 
         {/* Content */}
@@ -58,6 +65,12 @@ const AdminPage = () => {
         {currentView === 'list' && (
           <div>
             <ChallengeList />
+          </div>
+        )}
+
+        {currentView === 'scripts' && (
+          <div>
+            <ScriptEditor />
           </div>
         )}
       </div>

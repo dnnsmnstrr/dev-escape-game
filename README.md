@@ -7,6 +7,7 @@ A React-based escape game designed for developers, featuring cryptography challe
 - **Developer-Themed Puzzles**: Cryptography, code analysis, logic, and network security challenges
 - **Progressive Difficulty**: 5 levels of difficulty across different puzzle types
 - **Story-Driven Gameplay**: Engaging narrative that progresses as you solve puzzles
+- **Audio Storyline**: Create scripts and generate voice-acted audio using ElevenLabs
 - **Hint System**: Contextual hints available when you're stuck
 - **Score Tracking**: Points based on speed, accuracy, and hint usage
 - **Terminal Aesthetic**: Immersive hacker-themed UI design
@@ -136,6 +137,13 @@ npm run build
 2. Implement puzzle component in `src/components/puzzles/`
 3. Add puzzle type to `PuzzleRenderer.tsx`
 4. Update story chapters as needed
+
+### Creating Audio Scripts
+1. Set up ElevenLabs API key in `.env` file
+2. Navigate to Admin Panel → Audio Scripts tab
+3. Create scripts with dialogue for voice messages, phone calls, or narration
+4. Generate high-quality audio using ElevenLabs text-to-speech
+5. See [AUDIO_SCRIPTS_GUIDE.md](./AUDIO_SCRIPTS_GUIDE.md) for detailed instructions
 
 ### Theming
 - Modify `tailwind.config.js` for color schemes
