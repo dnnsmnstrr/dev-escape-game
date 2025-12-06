@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { AudioScript, AudioLine, ElevenLabsVoice } from '../../types/audio';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
@@ -12,13 +12,19 @@ const ScriptEditor = () => {
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isConfigured, setIsConfigured] = useState(false);
+  const [audioUrls, setAudioUrls] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     setIsConfigured(isElevenLabsConfigured());
     if (isElevenLabsConfigured()) {
       loadVoices();
     }
-  }, []);
+
+    // Cleanup blob URLs on unmount to prevent memory leaks
+    return () => {
+      audioUrls.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [audioUrls]);
 
   const loadVoices = async () => {
     try {
@@ -50,6 +56,9 @@ const ScriptEditor = () => {
       });
 
       if (result.success && result.audioUrl) {
+        // Track the new audio URL for cleanup
+        setAudioUrls(prev => new Set(prev).add(result.audioUrl!));
+        
         // Update the script with the audio URL
         if (selectedScript) {
           const updatedLines = selectedScript.lines.map(l =>
@@ -89,9 +98,12 @@ const ScriptEditor = () => {
       }
     }
 
+    // Generate audio sequentially with progress indication
+    setLoading('all');
     for (const line of selectedScript.lines) {
       await handleGenerateAudio(line);
     }
+    setLoading(null);
   };
 
   const handleVoiceChange = (lineId: string, voiceId: string) => {
@@ -255,7 +267,7 @@ const ScriptEditor = () => {
                     Export JSON
                   </Button>
                   <Button onClick={handleGenerateAllAudio} size="sm" disabled={!!loading}>
-                    {loading ? 'Generating...' : 'Generate All Audio'}
+                    {loading === 'all' ? 'Generating All...' : loading ? 'Generating...' : 'Generate All Audio'}
                   </Button>
                 </div>
               </div>

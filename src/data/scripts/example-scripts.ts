@@ -16,7 +16,7 @@ export const exampleScripts: AudioScript[] = [
       {
         id: 'line-1',
         speaker: 'System AI',
-        text: 'Warning. Unauthorized access detected. User unknown underscore dev has been quarantined.',
+        text: 'Warning. Unauthorized access detected. User unknown developer has been quarantined.',
         order: 1,
         settings: {
           stability: 0.5,

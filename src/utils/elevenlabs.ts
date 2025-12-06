@@ -140,24 +140,37 @@ export function downloadAudio(audioUrl: string, filename: string): void {
 }
 
 /**
- * Get recommended voice IDs for different character types
- * Note: These are example voice IDs. Use fetchVoices() to get actual available voices.
+ * Get recommended voice characteristics for different character types
+ * Use fetchVoices() to get actual available voices for your account,
+ * then select voices that match these characteristics.
  */
-export const RECOMMENDED_VOICES = {
+export const RECOMMENDED_VOICE_CHARACTERISTICS = {
   'System AI': {
     description: 'Robotic, authoritative voice for system messages',
-    fallback: 'EXAVITQu4vr4xnSDxMaL', // Example voice ID
+    suggestions: ['Look for deep, neutral voices with clear articulation'],
   },
   'Unknown Ally': {
     description: 'Friendly, helpful voice for the mysterious ally',
-    fallback: 'ErXwobaYiN019PkySvjV', // Example voice ID
+    suggestions: ['Choose warm, approachable voices with medium pitch'],
   },
   'Narrator': {
     description: 'Clear, professional narration voice',
-    fallback: 'VR6AewLTigWG4xSOukaG', // Example voice ID
+    suggestions: ['Select voices designed for storytelling or audiobooks'],
   },
   'Unknown Voice': {
     description: 'Mysterious, slightly distorted voice',
-    fallback: 'pNInz6obpgDQGcFmaJgB', // Example voice ID
+    suggestions: ['Try varied or character voices with unique qualities'],
   },
 };
+
+/**
+ * Validate if a voice ID exists in the available voices
+ */
+export async function validateVoiceId(voiceId: string): Promise<boolean> {
+  try {
+    const voices = await fetchVoices();
+    return voices.some(v => v.voice_id === voiceId);
+  } catch {
+    return false;
+  }
+}
