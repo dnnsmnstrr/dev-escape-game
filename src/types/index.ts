@@ -48,3 +48,5 @@ export interface PuzzleAttempt {
   hintsUsed: number;
   timeSpent: number;
 }
+
+export * from './audio';
